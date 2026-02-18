@@ -9,7 +9,6 @@ CREATE TABLE Team (
     TName    VARCHAR(20) NOT NULL,
     TCity    VARCHAR(20) NOT NULL,
     TColor   VARCHAR(20),
-    TLogo    VARCHAR(20),
     CDID     INT,
     FOREIGN KEY (CDID) REFERENCES ConferenceDivision(CDID)
 );
