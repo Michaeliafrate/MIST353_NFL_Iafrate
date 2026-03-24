@@ -14,13 +14,9 @@ def get_db_connection():
 
     # Construct the connection string
     connection_string = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={db_server};DATABASE={db_name};UID={db_login};PWD={db_password};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;'
-    return pyodbc.connect(connection_string)
 
     try:
-        # Establish a connection to the database
         connection = pyodbc.connect(connection_string)
-        print("Database connection established successfully.")
         return connection
     except Exception as e:
-        print(f"Error connecting to the database: {e}")
-        return None
+        raise RuntimeError(f"Database connection failed: {e}")

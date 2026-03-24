@@ -22,3 +22,20 @@ CREATE TABLE Team (
     FOREIGN KEY (CDID) REFERENCES ConferenceDivision(CDID)
 );
 GO
+
+IF OBJECT_ID('procGetTeamsByConferenceDivision', 'P') IS NOT NULL
+    DROP PROCEDURE procGetTeamsByConferenceDivision;
+GO
+
+CREATE PROCEDURE procGetTeamsByConferenceDivision
+    @ConferenceName VARCHAR(20) = NULL,
+    @DivisionName   VARCHAR(20) = NULL
+AS
+BEGIN
+    SELECT t.TID, t.TName, t.TCity, t.TColor, cd.Conference, cd.Division
+    FROM Team t
+    JOIN ConferenceDivision cd ON t.CDID = cd.CDID
+    WHERE (@ConferenceName IS NULL OR cd.Conference = @ConferenceName)
+      AND (@DivisionName   IS NULL OR cd.Division   = @DivisionName);
+END;
+GO
