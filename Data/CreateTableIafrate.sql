@@ -32,7 +32,7 @@ CREATE PROCEDURE procGetTeamsByConferenceDivision
     @DivisionName   VARCHAR(20) = NULL
 AS
 BEGIN
-    SELECT t.TID, t.TName, t.TCity, t.TColor, cd.Conference, cd.Division
+    SELECT t.TName AS TeamName, cd.Conference, cd.Division, t.TColor AS TeamColors
     FROM Team t
     JOIN ConferenceDivision cd ON t.CDID = cd.CDID
     WHERE (@ConferenceName IS NULL OR cd.Conference = @ConferenceName)
