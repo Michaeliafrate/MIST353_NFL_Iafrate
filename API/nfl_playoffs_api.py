@@ -1,31 +1,13 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import List
+from fastapi import FastAPI
 from get_teams_by_conference_division import get_teams_by_conference_division
+from get_teams_in_same_conference_division_as_specified_team import get_teams_in_same_conference_division_as_specified_team
 
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+@app.get("/get_teams_by_conference_division")
+def get_teams_by_conference_division_api(conference: str = None, division: str = None):
+    return get_teams_by_conference_division(conference=conference, division=division)
 
-class Team(BaseModel):
-    TeamName: str
-    Conference: str
-    Division: str
-    TeamColors: str
-
-class TeamsResponse(BaseModel):
-    data: List[Team]
-
-@app.get("/teams", response_model=TeamsResponse, responses={500: {"description": "Internal server error"}})
-def read_teams(conference: str = None, division: str = None):
-    try:
-        return get_teams_by_conference_division(conference, division)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+@app.get("/get_teams_in_same_conference_division_as_specified_team")
+def get_teams_in_same_conference_division_as_specified_team_api(team_name: str):
+    return get_teams_in_same_conference_division_as_specified_team(team_name=team_name)
