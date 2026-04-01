@@ -34,3 +34,5 @@ BEGIN
     )
     AND t.TName != @TeamName;
 END;
+
+-- execute procGetTeamsInSameConferenceDivisionAsSpecifiedTeam @TeamName = 'Baltimore Ravens';
