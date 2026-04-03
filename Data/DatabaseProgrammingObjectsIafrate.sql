@@ -1,3 +1,21 @@
+IF OBJECT_ID('procValidateUser', 'P') IS NOT NULL
+    DROP PROCEDURE procValidateUser;
+GO
+
+CREATE PROCEDURE procValidateUser
+(
+    @Email NVARCHAR(100),
+    @PasswordHash NVARCHAR(200)
+)
+AS
+BEGIN
+    SELECT AppUserID, Firstname + ' ' + Lastname AS Fullname, UserRole
+    FROM AppUser
+    WHERE Email = @Email AND
+    PasswordHash = CONVERT(VARBINARY(200), @PasswordHash, 1);
+END;
+GO
+
 IF OBJECT_ID('procGetTeamsByConferenceDivision', 'P') IS NOT NULL
     DROP PROCEDURE procGetTeamsByConferenceDivision;
 GO
@@ -35,4 +53,3 @@ BEGIN
     AND t.TName != @TeamName;
 END;
 
--- execute procGetTeamsInSameConferenceDivisionAsSpecifiedTeam @TeamName = 'Baltimore Ravens';
