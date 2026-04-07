@@ -1,3 +1,7 @@
+INSERT INTO AppUser (Firstname, Lastname, Email, PasswordHash, UserRole) VALUES
+('Tom', 'Brady', 'tom.brady@example.com', 0x01, 'Admin');
+GO
+
 INSERT INTO ConferenceDivision (CDID, Conference, Division) VALUES
 (1, 'AFC', 'East'),
 (2, 'AFC', 'North'),

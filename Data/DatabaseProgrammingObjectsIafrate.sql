@@ -52,4 +52,42 @@ BEGIN
     )
     AND t.TName != @TeamName;
 END;
+GO
+
+IF OBJECT_ID('procValidateUser', 'P') IS NOT NULL
+    DROP PROCEDURE procValidateUser;
+GO
+
+CREATE OR ALTER PROCEDURE procValidateUser
+(
+    @Email        NVARCHAR(100),
+    @PasswordHash NVARCHAR(200)
+)
+AS
+BEGIN
+    SELECT
+        AppUserID,
+        Firstname + ' ' + Lastname AS Fullname,
+        UserRole
+    FROM AppUser
+    WHERE Email        = @Email
+      AND PasswordHash = CONVERT(VARBINARY(200), @PasswordHash, 1);
+END;
+
+GO
+
+CREATE OR ALTER PROCEDURE procGetTeamsForSpecifiedFan
+(
+    @NFLFanID INT
+)
+AS
+BEGIN
+    SELECT T.TeamName, CD.Conference, CD.Division, T.TeamColors
+    FROM NFLFan F
+        INNER JOIN Team T
+        ON F.NFLFanID = T.TeamID
+        INNER JOIN ConferenceDivision CD
+        ON T.ConferenceDivisionID = CD.ConferenceDivisionID
+    WHERE F.NFLFanID = @NFLFanID;
+END;
 

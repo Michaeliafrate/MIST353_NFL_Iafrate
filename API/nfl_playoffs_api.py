@@ -1,6 +1,7 @@
 from fastapi import FastAPI                                                                          # FastAPI is a web framework that lets us create API endpoints using Python functions
 from get_teams_by_conference_division import get_teams_by_conference_division                        # this function handles the database logic for filtering teams by conference/division
 from get_teams_in_same_conference_division_as_specified_team import get_teams_in_same_conference_division_as_specified_team  # this function handles the database logic for finding rivals of a given team
+from validate_user import validate_user                                                              # this function handles the database logic for validating a user's credentials
 
 app = FastAPI()                                                                                      # this creates the API — all endpoints are registered on this object
 
@@ -11,3 +12,7 @@ def get_teams_by_conference_division_api(conference_name: str = None, division_n
 @app.get("/get_teams_in_same_conference_division_as_specified_team")                                 # second endpoint — listens for GET requests at this URL path
 def get_teams_in_same_conference_division_as_specified_team_api(team_name: str):                    # team_name is required here — if it's missing, FastAPI will automatically return an error
     return get_teams_in_same_conference_division_as_specified_team(team_name=team_name)             # pass the team name into the database function and return the results
+
+@app.get("/validate_user")                                                                          # third endpoint — listens for GET requests at this URL path
+def validate_user_api(email: str, password_hash: str):                                             # email and password_hash are required query parameters
+    return validate_user(email=email, password_hash=password_hash)                                 # pass credentials into the database function and return the results

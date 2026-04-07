@@ -6,6 +6,10 @@ IF OBJECT_ID('ConferenceDivision', 'U') IS NOT NULL
     DROP TABLE ConferenceDivision;
 GO
 
+IF OBJECT_ID('AppUser', 'U') IS NOT NULL
+    DROP TABLE AppUser;
+GO
+
 CREATE TABLE ConferenceDivision (
     CDID        INT PRIMARY KEY,
     Conference  VARCHAR(20) NOT NULL,
@@ -20,6 +24,16 @@ CREATE TABLE Team (
     TColor   VARCHAR(20),
     CDID     INT,
     FOREIGN KEY (CDID) REFERENCES ConferenceDivision(CDID)
+);
+GO
+
+CREATE TABLE AppUser (
+    AppUserID       INT IDENTITY(1,1) PRIMARY KEY,
+    Firstname       NVARCHAR(50) NOT NULL,
+    Lastname        NVARCHAR(50) NOT NULL,
+    Email           NVARCHAR(100) NOT NULL,
+    PasswordHash    VARBINARY(200) NOT NULL,
+    UserRole        NVARCHAR(50) NOT NULL
 );
 GO
 
