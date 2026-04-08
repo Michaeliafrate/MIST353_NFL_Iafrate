@@ -4,6 +4,9 @@ def get_teams_by_conference_division(conference: str = None, division: str = Non
     conn = get_db_connection()                                                       # open a connection — always close this when done to avoid leaving connections open
     cursor = conn.cursor()                                                           # a cursor is what lets us send SQL commands through the connection
 
+    conference = conference if conference else None                                  # convert empty string to None so SQL Server receives NULL and the stored procedure skips that filter
+    division = division if division else None                                        # same for division — empty string would bypass the NULL check in the WHERE clause
+
     cursor.execute("{call procGetTeamsByConferenceDivision(?, ?)}", (conference, division))  # call the stored procedure in SQL Server — the ? placeholders safely pass values to prevent SQL injection
 
     rows = cursor.fetchall()                                                         # retrieve all rows the stored procedure returned

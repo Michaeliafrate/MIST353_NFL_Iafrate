@@ -1,4 +1,5 @@
 .env
+API/.env
 .venv/
 __pycache__/
 *.pyc
