@@ -8,11 +8,10 @@ on:
   push:
     branches:
       - main
-      paths:
-        - 'API/**'
-        - 'requirements.txt'
-  
-        workflow_dispatch:
+    paths:
+      - 'API/**'
+      - 'requirements.txt'
+  workflow_dispatch:
 
 jobs:
   build:
