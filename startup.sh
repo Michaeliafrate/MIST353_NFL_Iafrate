@@ -1,2 +1,2 @@
 #!/bin/bash
-antenv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker nfl_playoffs_api:app
+python -m gunicorn -w 4 -k uvicorn.workers.UvicornWorker nfl_playoffs_api:app
