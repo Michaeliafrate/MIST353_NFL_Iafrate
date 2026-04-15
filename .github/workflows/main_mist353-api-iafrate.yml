@@ -43,6 +43,7 @@ jobs:
           path: |
             API/
             startup.sh
+            requirements.txt
             !.venv/
             !antenv/
 
