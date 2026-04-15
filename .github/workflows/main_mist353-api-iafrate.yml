@@ -43,6 +43,7 @@ jobs:
           path: |
             API/
             startup.sh
+            !API/startup.sh
             !antenv/
 
       # 🚫 Opting Out of Oryx Build
