@@ -21,3 +21,4 @@ def get_teams_by_conference_division_ui():                                      
                 st.dataframe(df, use_container_width=True, hide_index=True)                             # render the DataFrame as an interactive table — hide_index removes the default row numbers
             else:
                 st.info(f"No teams found in the same conference and division as {conference_name} - {division_name}. Please check the names and try again.")  # st.info shows a blue banner when there are no results to display
+    

@@ -1,40 +1,29 @@
-# Import the database connection function we want to test
-from get_db_connection import get_db_connection
-import os
-import pyodbc
-# load_dotenv reads the .env file so environment variables are available during testing
-from dotenv import load_dotenv
+from get_db_connection import get_db_connection                                               # import the function we want to test
+import os                                                                                     # os lets us check if environment variables are loaded
+import pyodbc                                                                                 # pyodbc is the library that connects Python to SQL Server
+from dotenv import load_dotenv                                                                # load_dotenv reads the .env file so environment variables are available during testing
 
-# Load the .env file at the top level so all tests can access the variables
-load_dotenv()
+load_dotenv()                                                                                 # load the .env file at the top level so all tests can access the variables
 
-# This function runs three checks to make sure the database connection works correctly
 def test_get_db_connection():
-    # Test 1: Make sure all required environment variables exist in the .env file
-    required_vars = ["DB_SERVER", "DB_NAME", "DB_LOGIN", "DB_PASSWORD"]
-    missing = [v for v in required_vars if not os.getenv(v)]
-    assert not missing, f"Missing env vars: {missing}"
-    print("✅ Env vars loaded")
+    required_vars = ["DB_SERVER", "DB_NAME", "DB_LOGIN", "DB_PASSWORD"]                      # list of all the variables that must exist in the .env file
+    missing = [v for v in required_vars if not os.getenv(v)]                                 # check each variable — if any are missing, add them to this list
+    assert not missing, f"Missing env vars: {missing}"                                       # if anything is missing, stop the test and show which variables are missing
+    print("✅ Env vars loaded")                                                               # if we get here, all required variables were found
 
-    # Test 2: Connection returns a pyodbc.Connection object
-    # Confirms the function returns the right type, not None or an error
-    conn = get_db_connection()
-    assert isinstance(conn, pyodbc.Connection), "Expected a pyodbc.Connection"
-    print("✅ Connection object returned")
+    conn = get_db_connection()                                                                # call our function to open a database connection
+    assert isinstance(conn, pyodbc.Connection), "Expected a pyodbc.Connection"               # make sure it returned an actual connection object and not None or an error
+    print("✅ Connection object returned")                                                    # if we get here, the connection was created successfully
 
-    # Test 3: Connection is usable (run a simple query)
-    # "SELECT 1" is the simplest possible query — if it works, the connection is live
-    cursor = conn.cursor()
-    cursor.execute("SELECT 1")
-    result = cursor.fetchone()
-    assert result[0] == 1, "Expected query result of 1"
-    print("✅ Connection is live and queryable")
+    cursor = conn.cursor()                                                                    # a cursor lets us send SQL commands through the connection
+    cursor.execute("SELECT 1")                                                                # SELECT 1 is the simplest possible query — if it works, the connection is live
+    result = cursor.fetchone()                                                                # fetch the single row that SELECT 1 returns
+    assert result[0] == 1, "Expected query result of 1"                                      # confirm the result is 1 — proves the query actually ran
+    print("✅ Connection is live and queryable")                                              # if we get here, the connection can successfully run queries
 
-    # Close the connection cleanly after all tests pass
-    conn.close()
-    print("✅ Connection closed cleanly")
-    print("\n🎉 All tests passed!")
+    conn.close()                                                                              # close the connection cleanly after all tests pass
+    print("✅ Connection closed cleanly")                                                     # confirms the connection was closed without errors
+    print("\n🎉 All tests passed!")                                                           # all three checks passed — the database connection is working correctly
 
-# This block runs the test when you execute the file directly (e.g. python test_get_db_connection.py)
-if __name__ == "__main__":
-    test_get_db_connection()
+if __name__ == "__main__":                                                                    # this block runs the test when you execute the file directly e.g. python test_get_db_connection.py
+    test_get_db_connection()                                                                  # call the test function
