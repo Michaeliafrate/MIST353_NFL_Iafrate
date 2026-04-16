@@ -42,9 +42,6 @@ jobs:
           name: python-app
           path: |
             API/
-            startup.sh
-            requirements.txt
-            !API/startup.sh
             !antenv/
 
       # 🚫 Opting Out of Oryx Build
