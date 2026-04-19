@@ -52,3 +52,10 @@ INSERT INTO Team (TID, TName, TCity, TColor, CDID) VALUES
 (30, 'Rams', 'LA', 'RoyalBlue', 8),
 (31, '49ers', 'San Fran', 'Red', 8),
 (32, 'Seahawks', 'Seattle', 'Navy', 8);
+
+INSERT INTO NFLFan (Firstname, Lastname) VALUES
+('Michael', 'Iafrate');
+
+INSERT INTO FanTeam (NFLFanID, TeamID, PrimaryTeam) VALUES
+(1, 14, 1),  -- Chiefs (primary)
+(1, 1, 0);   -- Bills (secondary)

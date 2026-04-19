@@ -1,6 +1,6 @@
 from get_db_connection import get_db_connection                                               # import the function we want to test
 import os                                                                                     # os lets us check if environment variables are loaded
-import pyodbc                                                                                 # pyodbc is the library that connects Python to SQL Server
+import pymssql                                                                                # pymssql is the library that connects Python to SQL Server
 from dotenv import load_dotenv                                                                # load_dotenv reads the .env file so environment variables are available during testing
 
 load_dotenv()                                                                                 # load the .env file at the top level so all tests can access the variables
@@ -12,7 +12,7 @@ def test_get_db_connection():
     print("✅ Env vars loaded")                                                               # if we get here, all required variables were found
 
     conn = get_db_connection()                                                                # call our function to open a database connection
-    assert isinstance(conn, pyodbc.Connection), "Expected a pyodbc.Connection"               # make sure it returned an actual connection object and not None or an error
+    assert isinstance(conn, pymssql.Connection), "Expected a pymssql.Connection"              # make sure it returned an actual connection object and not None or an error
     print("✅ Connection object returned")                                                    # if we get here, the connection was created successfully
 
     cursor = conn.cursor()                                                                    # a cursor lets us send SQL commands through the connection

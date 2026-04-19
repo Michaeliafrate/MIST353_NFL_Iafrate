@@ -2,7 +2,7 @@ import streamlit as st                                                          
 import requests                                                                          # requests is a Python library for making HTTP calls — this is how the UI talks to the FastAPI backend
 import pandas as pd                                                                      # pandas lets us store and display table data — we convert the API response into a DataFrame for easy rendering
 
-FASTAPI_URL = "http://localhost:8000"                                                    # this is the base address of our running API — all endpoint calls are built on top of this URL
+FASTAPI_URL = "https://mist353-api-iafrate.azurewebsites.net" #"http://localhost:8000"  # Adjust if your API is hosted elsewhere
 
 def fetch_data(endpoint: str, input_params: dict, method: str = "GET"):                 # this is a reusable helper — any UI page can call this instead of writing its own request logic
     if method == "GET":                                                                  # GET is the standard HTTP method for retrieving data without changing anything on the server

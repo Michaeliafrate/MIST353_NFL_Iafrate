@@ -2,6 +2,7 @@ from fastapi import FastAPI                                                     
 from get_teams_by_conference_division import get_teams_by_conference_division                        # this function handles the database logic for filtering teams by conference/division
 from get_teams_in_same_conference_division_as_specified_team import get_teams_in_same_conference_division_as_specified_team  # this function handles the database logic for finding rivals of a given team
 from validate_user import validate_user                                                              # this function handles the database logic for validating a user's credentials
+from get_teams_for_specified_fan import get_teams_for_specified_fan                                  # this function handles the database logic for getting teams for a specified fan
 
 app = FastAPI()                                                                                      # this creates the API — all endpoints are registered on this object
 
@@ -16,3 +17,7 @@ def get_teams_in_same_conference_division_as_specified_team_api(team_name: str):
 @app.get("/validate_user")                                                                          # third endpoint — listens for GET requests at this URL path
 def validate_user_api(email: str, password_hash: str):                                             # email and password_hash are required query parameters
     return validate_user(email=email, password_hash=password_hash)                                 # pass credentials into the database function and return the results
+
+@app.get("/get_teams_for_specified_fan")                                                            # fourth endpoint — listens for GET requests at this URL path
+def get_teams_for_specified_fan_api(fan_id: int):                                                  # fan_id is a required integer query parameter
+    return get_teams_for_specified_fan(fan_id=fan_id)                                              # pass the fan ID into the database function and return the results

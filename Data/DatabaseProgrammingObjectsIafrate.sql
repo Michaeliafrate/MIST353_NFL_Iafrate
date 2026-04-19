@@ -82,12 +82,11 @@ CREATE OR ALTER PROCEDURE procGetTeamsForSpecifiedFan
 )
 AS
 BEGIN
-    SELECT T.TeamName, CD.Conference, CD.Division, T.TeamColors
+    SELECT T.TName AS TeamName, CD.Conference, CD.Division, T.TColor AS TeamColors, FT.PrimaryTeam
     FROM NFLFan F
-        INNER JOIN Team T
-        ON F.NFLFanID = T.TeamID
-        INNER JOIN ConferenceDivision CD
-        ON T.ConferenceDivisionID = CD.ConferenceDivisionID
+        INNER JOIN FanTeam FT ON F.NFLFanID = FT.NFLFanID
+        INNER JOIN Team T ON FT.TeamID = T.TID
+        INNER JOIN ConferenceDivision CD ON T.CDID = CD.CDID
     WHERE F.NFLFanID = @NFLFanID;
 END;
 
