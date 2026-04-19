@@ -1,21 +1,19 @@
-from get_db_connection import get_db_connection                                                                          # reuse the shared connection function so we don't repeat that setup logic here
+from get_db_connection import get_db_connection
 
-def get_teams_in_same_conference_division_as_specified_team(team_name: str):                                             # team_name is required — the stored procedure uses it to look up that team's conference and division, then returns all teams in the same group
-    conn = get_db_connection()                                                                                           # open a connection — always close this when done to avoid leaving connections open
-    cursor = conn.cursor()                                                                                               # a cursor is what lets us send SQL commands through the connection
+def get_teams_in_same_conference_division_as_specified_team(team_name: str):
+    conn = get_db_connection()
+    cursor = conn.cursor(as_dict=True)
+    cursor.callproc("procGetTeamsInSameConferenceDivisionAsSpecifiedTeam", (team_name,))
+    rows = cursor.fetchall()
+    conn.close()
 
-    cursor.execute("{call procGetTeamsInSameConferenceDivisionAsSpecifiedTeam(?)}", (team_name,))                        # call the stored procedure — the ? placeholder safely passes the team name to prevent SQL injection
-
-    rows = cursor.fetchall()                                                                                             # retrieve all rows the stored procedure returned
-    conn.close()                                                                                                         # close the connection immediately after — we have the data we need
-
-    results = [                                                                                                          # pyodbc returns raw Row objects, so we convert each one to a plain dictionary that can be serialized to JSON
+    results = [
         {
-            "TeamName": row.TeamName,                                                                                    # maps to the TeamName column in the database result
-            "Conference": row.Conference,                                                                                # maps to the Conference column (e.g. AFC or NFC)
-            "Division": row.Division                                                                                     # maps to the Division column (e.g. North, South, East, West)
+            "TeamName": row["TeamName"],
+            "Conference": row["Conference"],
+            "Division": row["Division"]
         }
         for row in rows
     ]
 
-    return {"data": results}                                                                                             # wrapping in a "data" key gives the API response a consistent structure the UI can always rely on
+    return {"data": results}

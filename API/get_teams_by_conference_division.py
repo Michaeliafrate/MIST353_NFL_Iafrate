@@ -2,22 +2,19 @@ from get_db_connection import get_db_connection                                 
 
 def get_teams_by_conference_division(conference: str = None, division: str = None): # both parameters are optional — the stored procedure handles NULL values and returns all teams if nothing is passed
     conn = get_db_connection()                                                       # open a connection — always close this when done to avoid leaving connections open
-    cursor = conn.cursor()                                                           # a cursor is what lets us send SQL commands through the connection
+    cursor = conn.cursor(as_dict=True)
+    conference = conference if conference else None
+    division = division if division else None
+    cursor.callproc("procGetTeamsByConferenceDivision", (conference, division))
+    rows = cursor.fetchall()
+    conn.close()
 
-    conference = conference if conference else None                                  # convert empty string to None so SQL Server receives NULL and the stored procedure skips that filter
-    division = division if division else None                                        # same for division — empty string would bypass the NULL check in the WHERE clause
-
-    cursor.execute("{call procGetTeamsByConferenceDivision(?, ?)}", (conference, division))  # call the stored procedure in SQL Server — the ? placeholders safely pass values to prevent SQL injection
-
-    rows = cursor.fetchall()                                                         # retrieve all rows the stored procedure returned
-    conn.close()                                                                     # close the connection immediately after — we have the data we need
-
-    results = [                                                                      # pyodbc returns raw Row objects, so we convert each one to a plain dictionary that can be serialized to JSON
+    results = [
         {
-            "TeamName": row.TeamName,                                                # maps to the TeamName column in the database result
-            "Conference": row.Conference,                                            # maps to the Conference column (e.g. AFC or NFC)
-            "Division": row.Division,                                                # maps to the Division column (e.g. North, South, East, West)
-            "TeamColors": row.TeamColors                                             # maps to the TeamColors column
+            "TeamName": row["TeamName"],
+            "Conference": row["Conference"],
+            "Division": row["Division"],
+            "TeamColors": row["TeamColors"]
         }
         for row in rows
     ]
