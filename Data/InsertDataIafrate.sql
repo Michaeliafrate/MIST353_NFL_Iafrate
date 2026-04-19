@@ -1,7 +1,3 @@
-INSERT INTO AppUser (Firstname, Lastname, Email, PasswordHash, UserRole) VALUES
-('Tom', 'Brady', 'tom.brady@example.com', 0x01, 'Admin');
-GO
-
 INSERT INTO ConferenceDivision (CDID, Conference, Division) VALUES
 (1, 'AFC', 'East'),
 (2, 'AFC', 'North'),
@@ -53,9 +49,26 @@ INSERT INTO Team (TID, TName, TCity, TColor, CDID) VALUES
 (31, '49ers', 'San Fran', 'Red', 8),
 (32, 'Seahawks', 'Seattle', 'Navy', 8);
 
-INSERT INTO NFLFan (Firstname, Lastname) VALUES
-('Michael', 'Iafrate');
+INSERT INTO AppUser (Firstname, Lastname, Email, PhoneNumber, PasswordHash, UserRole) VALUES
+('Tom', 'Brady', 'tom.brady@example.com', '555-1234', 0x01, N'NFLFan'),
+('Aaron', 'Rodgers', 'aaron.rodgers@example.com', '555-9012', 0x01, N'NFLFan'),
+('Drew', 'Brees', 'drew.brees@example.com', '555-2222', 0x01, N'NFLFan'),
+('Patrick', 'Mahomes', 'patrick.mahomes@example.com', '555-7890', 0x01, N'NFLFan'),
+('Bill', 'Belichick', 'bill.belichick@example.com', '555-5678', 0x01, N'NFLAdmin'),
+('Sean', 'McVay', 'sean.mcvay@example.com', '555-3456', 0x01, N'NFLAdmin'),
+('Mike', 'Tomlin', 'mike.tomlin@example.com', '555-1111', 0x01, N'NFLAdmin'),
+('Andy', 'Reid', 'andy.reid@example.com', '555-3333', 0x01, N'NFLAdmin');
+
+INSERT INTO NFLFan (NFLFanID) VALUES (1), (2), (3), (4);
+
+INSERT INTO NFLAdmin (NFLAdminID) VALUES (5), (6), (7), (8);
 
 INSERT INTO FanTeam (NFLFanID, TeamID, PrimaryTeam) VALUES
-(1, 14, 1),  -- Chiefs (primary)
-(1, 1, 0);   -- Bills (secondary)
+(1, 11, 1),
+(1, 24, 0),
+(2, 19, 1),
+(2, 12, 0),
+(2, 4, 0),
+(3, 3, 1),
+(3, 16, 0),
+(4, 14, 1);

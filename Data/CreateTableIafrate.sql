@@ -2,6 +2,10 @@ IF OBJECT_ID('FanTeam', 'U') IS NOT NULL
     DROP TABLE FanTeam;
 GO
 
+IF OBJECT_ID('NFLAdmin', 'U') IS NOT NULL
+    DROP TABLE NFLAdmin;
+GO
+
 IF OBJECT_ID('NFLFan', 'U') IS NOT NULL
     DROP TABLE NFLFan;
 GO
@@ -40,15 +44,19 @@ CREATE TABLE AppUser (
     Firstname       NVARCHAR(50) NOT NULL,
     Lastname        NVARCHAR(50) NOT NULL,
     Email           NVARCHAR(100) NOT NULL,
+    PhoneNumber     NVARCHAR(20),
     PasswordHash    VARBINARY(200) NOT NULL,
     UserRole        NVARCHAR(50) NOT NULL
 );
 GO
 
 CREATE TABLE NFLFan (
-    NFLFanID    INT IDENTITY(1,1) PRIMARY KEY,
-    Firstname   NVARCHAR(50) NOT NULL,
-    Lastname    NVARCHAR(50) NOT NULL
+    NFLFanID    INT PRIMARY KEY REFERENCES AppUser(AppUserID)
+);
+GO
+
+CREATE TABLE NFLAdmin (
+    NFLAdminID  INT PRIMARY KEY REFERENCES AppUser(AppUserID)
 );
 GO
 
