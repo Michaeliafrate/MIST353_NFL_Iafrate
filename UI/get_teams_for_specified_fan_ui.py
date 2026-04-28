@@ -3,6 +3,10 @@ from fetch_data import fetch_data
 
 def get_teams_for_specified_fan_ui():
 
+    if "app_user_id" not in st.session_state:
+        st.warning("Please log in first using the Validate User page.")
+        return
+
     fan_name = st.session_state.app_user_fullname
     st.header(f"Teams associated with {fan_name}")
 
