@@ -3,6 +3,7 @@ from get_teams_by_conference_division_ui import get_teams_by_conference_division
 from get_teams_in_same_conference_division_as_specified_team_ui import get_teams_in_same_conference_division_as_specified_team_ui  # import the UI function for finding teams in the same group as a given team
 from validate_user_ui import validate_user_ui                                                                # import the UI function for validating a user login
 from get_teams_for_specified_fan_ui import get_teams_for_specified_fan_ui                                    # import the UI function for getting teams for a specified fan
+from schedule_game_ui import schedule_game_ui
 
 st.title("NFL Playoffs App")                                                                                 # displays the main title at the top of the page
 st.write("Welcome to the NFL Playoffs App! Use the sidebar to navigate through different features and explore information.")  # displays a welcome message below the title
@@ -14,7 +15,7 @@ with st.sidebar:                                                                
 
     api_endpoint = st.selectbox(                                                                             # creates a dropdown menu — whatever the user picks is stored in api_endpoint
         "Select a functionality:",
-        ["Get Teams by Conference and Division", "Get Teams in Same Conference and Division as Specified Team", "Validate User", "Get Teams for Specified Fan"]
+        ["Get Teams by Conference and Division", "Get Teams in Same Conference and Division as Specified Team", "Validate User", "Get Teams for Specified Fan", "Schedule a Game"]
     )
 
 if api_endpoint == "Get Teams by Conference and Division":                                                   # check which option the user picked and call the matching UI function
@@ -28,3 +29,6 @@ elif api_endpoint == "Validate User":                                           
 
 elif api_endpoint == "Get Teams for Specified Fan":
     get_teams_for_specified_fan_ui()
+
+elif api_endpoint == "Schedule a Game":
+    schedule_game_ui()

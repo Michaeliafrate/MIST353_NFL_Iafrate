@@ -3,6 +3,8 @@ from get_teams_by_conference_division import get_teams_by_conference_division   
 from get_teams_in_same_conference_division_as_specified_team import get_teams_in_same_conference_division_as_specified_team  # this function handles the database logic for finding rivals of a given team
 from validate_user import validate_user                                                              # this function handles the database logic for validating a user's credentials
 from get_teams_for_specified_fan import get_teams_for_specified_fan                                  # this function handles the database logic for getting teams for a specified fan
+from schedule_game import schedule_game
+from datetime import date, time
 
 app = FastAPI()                                                                                      # this creates the API — all endpoints are registered on this object
 
@@ -21,3 +23,23 @@ def validate_user_api(email: str, password_hash: str):                          
 @app.get("/get_teams_for_specified_fan")                                                            # fourth endpoint — listens for GET requests at this URL path
 def get_teams_for_specified_fan_api(fan_id: int):                                                  # fan_id is a required integer query parameter
     return get_teams_for_specified_fan(fan_id=fan_id)                                              # pass the fan ID into the database function and return the results
+
+@app.post("/schedule_game/")
+def schedule_game_api(
+        home_team_id: int,
+        away_team_id: int,
+        game_round: str,
+        game_date: date,
+        game_time: time,
+        stadium_id: int,
+        nfl_admin_id: int
+):
+    return schedule_game(
+        home_team_id=home_team_id,
+        away_team_id=away_team_id,
+        game_round=game_round,
+        game_date=game_date,
+        game_time=game_time,
+        stadium_id=stadium_id,
+        nfl_admin_id=nfl_admin_id
+    )
