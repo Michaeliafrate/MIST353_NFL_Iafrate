@@ -19,6 +19,9 @@ def fetch_data(endpoint: str, input_params: dict, method: str = "GET"):         
         st.error(f"Error fetching data: {response.status_code}")                        # show an error banner in the UI so the user knows something went wrong
         return None
 
+def get_data(endpoint: str, input_params: dict):                                         # alias for fetch_data using GET — used by pages that need a DataFrame back from the API
+    return fetch_data(endpoint, input_params, method="GET")
+
 def post_data(endpoint: str, input_params: dict, method: str = "POST") -> dict:
     if method == "POST":
         response = requests.post(f"{FASTAPI_URL}/{endpoint}", params=input_params)

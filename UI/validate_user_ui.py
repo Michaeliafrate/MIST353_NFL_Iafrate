@@ -27,5 +27,6 @@ def validate_user_ui():
             st.dataframe(df, use_container_width=True, hide_index=True)                 # display the user's info in a table — hide_index removes the row numbers
             st.session_state.app_user_id = df["AppUserID"].values[0]                   # save the user's ID to session state so other pages can use it later
             st.session_state.app_user_fullname = df["Fullname"].values[0]              # save the user's full name to session state so other pages can use it later
+            st.session_state.app_user_role = df["UserRole"].values[0]                 # save the user's role to session state so role-gated pages can check it
         else:
             st.info(f"User {email} is not valid. Please check the inputs and try again.")  # show a blue message if no matching user was found
